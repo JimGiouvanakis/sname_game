@@ -160,8 +160,15 @@
         return Math.floor(Math.random() * (max - min)) + min;
       }
       function loop() {
-        requestAnimationFrame(loop);
-        if (++count < 4) {
+        setTimeout(function () {
+          requestAnimationFrame(function () {
+            loop(grid);
+          });
+
+          count++;
+          if (++count < 4) {
+            return;
+          }
           count = 0;
           context.clearRect(0, 0, canvas.width, canvas.height);
           snake.x += snake.dx;
@@ -208,7 +215,7 @@
               apple.y = getRandomInt(0, 25) * grid - 1;
             }
           }
-        }
+        }, 40);
       }
       document.addEventListener("keydown", function (e) {
         if (e.which === 37 && snake.dx === 0) {
